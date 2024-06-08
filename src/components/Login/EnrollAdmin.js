@@ -1,0 +1,56 @@
+// src/EnrollAdmin.js
+import React, { useState } from 'react';
+import './EnrollAdmin.css';
+
+const EnrollAdmin = () => {
+  const [selectedRole, setSelectedRole] = useState('');
+  const [message, setMessage] = useState('');
+
+  const handleSubmit = async (e) => {
+    e.preventDefault();
+    try {
+      const response = await fetch('http://localhost:3000/enroll-admin', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({ orgName: selectedRole }),
+      });
+      
+      const data = await response.json();
+      
+      if (response.ok) {
+        setMessage(data.message);
+      } else {
+        setMessage(data.error);
+      }
+    } catch (error) {
+      setMessage(`Error: ${error.message}`);
+    }
+  };
+
+  return (
+    <div className="enroll-container">
+      <form onSubmit={handleSubmit}>
+        <h2>Enroll Admin</h2>
+        <div className="form-group">
+          <label>Select Role</label>
+          <select 
+            value={selectedRole} 
+            onChange={(e) => setSelectedRole(e.target.value)} 
+            required
+          >
+            <option value="">--Select a role--</option>
+            <option value="Accountant">Accountant</option>
+            <option value="Staff">Staff</option>
+            <option value="Manager">Manager</option>
+          </select>
+        </div>
+        <button type="submit">Enroll Admin</button>
+        {message && <p>{message}</p>}
+      </form>
+    </div>
+  );
+};
+
+export default EnrollAdmin;
