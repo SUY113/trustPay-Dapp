@@ -3,7 +3,7 @@ import React, { useState } from 'react';
 import './EnrollAdmin.css';
 
 const EnrollAdmin = () => {
-  const [selectedRole, setSelectedRole] = useState('');
+  const [selectedOrg, setSelectedOrg] = useState('');
   const [message, setMessage] = useState('');
 
   const handleSubmit = async (e) => {
@@ -14,7 +14,7 @@ const EnrollAdmin = () => {
         headers: {
           'Content-Type': 'application/json',
         },
-        body: JSON.stringify({ orgName: selectedRole }),
+        body: JSON.stringify({ orgName: selectedOrg }),
       });
       
       const data = await response.json();
@@ -34,13 +34,13 @@ const EnrollAdmin = () => {
       <form onSubmit={handleSubmit}>
         <h2>Enroll Admin</h2>
         <div className="form-group">
-          <label>Select Role</label>
+          <label>Select Org</label>
           <select 
-            value={selectedRole} 
-            onChange={(e) => setSelectedRole(e.target.value)} 
+            value={selectedOrg} 
+            onChange={(e) => setSelectedOrg(e.target.value)} 
             required
           >
-            <option value="">--Select a role--</option>
+            <option value="">--Select a Org--</option>
             <option value="Accountant">Accountant</option>
             <option value="Staff">Staff</option>
             <option value="Manager">Manager</option>
