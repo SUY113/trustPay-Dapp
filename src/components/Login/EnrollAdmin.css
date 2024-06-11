@@ -40,5 +40,23 @@ button {
 }
 
 button:hover {
+  background-color: #21a1f1;
+}
+
+/* src/components/Login/EnrollAdmin.css */
+.back-to-home-button {
+  position: absolute;
+  right: 20px;
+  top: 20px;
+  padding: 10px 20px;
+  background-color: #218838;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+  color: white;
+  font-size: 16px;
+}
+
+.back-to-home-button:hover {
   background-color: #218838;
 }

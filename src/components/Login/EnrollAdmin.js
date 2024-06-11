@@ -1,5 +1,6 @@
 // src/EnrollAdmin.js
 import React, { useState } from 'react';
+import { Link } from 'react-router-dom';
 import RegisterUser from './RegisterUser';
 import './EnrollAdmin.css';
 
@@ -64,11 +65,14 @@ const EnrollAdmin = () => {
             <button type="button" onClick={handleShowRegisterUser}>
               Go to Register User
             </button>
-          )}
+          )}         
         </form>
       ) : (
         <RegisterUser orgName={selectedOrg} onBack={handleBack} />
       )}
+      <Link to="/">
+        <button type="button" className="back-to-home-button">Back to Home</button>
+      </Link>
     </div>
   );
 };
