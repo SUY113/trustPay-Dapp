@@ -1,6 +1,5 @@
-// src/components/InputInfoPage.js
-import React, { useState } from 'react';
-import { useNavigate } from 'react-router-dom'; // Sử dụng useNavigate thay vì useHistory
+import React, { useState, useEffect } from 'react';
+import { useNavigate, Link } from 'react-router-dom';
 import axios from 'axios';
 import './InputInfoPage.css'; // Import file CSS cho component này
 
@@ -9,25 +8,42 @@ function InputInfoPage() {
   const [age, setAge] = useState('');
   const [ethAddress, setEthAddress] = useState('');
   const [errorMessage, setErrorMessage] = useState('');
-  const navigate = useNavigate(); // Sử dụng useNavigate để chuyển hướng
+  const [channel, setChannel] = useState('staffaccountant');
+  const navigate = useNavigate();
+  const [userName, setUserName] = useState('');
+  const [orgName, setOrgName] = useState('');
+
+  useEffect(() => {
+    const storedUserName = localStorage.getItem('userName');
+    const storedOrgName = localStorage.getItem('orgName');
+    if (storedUserName && storedOrgName) {
+      setUserName(storedUserName);
+      setOrgName(storedOrgName);
+    } else {
+      navigate('/login');
+    }
+  }, [navigate]);
 
   const handleSubmit = async (event) => {
     event.preventDefault();
 
     try {
-      // Gửi yêu cầu POST đến REST API để lưu thông tin người dùng
-      const response = await axios.post('YOUR_INPUT_INFO_REST_API_ENDPOINT', {
+      const response = await axios.post('http://localhost:3000/input-info', {
+        userName: userName,
+        orgName: orgName,
         name: name,
         age: age,
-        ethAddress: ethAddress
+        ethAddress: ethAddress,
+        channel : channel
       });
 
-      // Sau khi lưu thành công, chuyển hướng đến trang chính
-      navigate('/');
+      if (response.status === 200) {
+        navigate('/dashboard');
+      } else {
+        setErrorMessage('Đã xảy ra lỗi khi lưu thông tin người dùng. Vui lòng thử lại sau.');
+      }
     } catch (error) {
-      // Xử lý lỗi
       console.error('Đã xảy ra lỗi:', error);
-      // Hiển thị thông báo lỗi cho người dùng
       setErrorMessage('Đã xảy ra lỗi khi lưu thông tin người dùng. Vui lòng thử lại sau.');
     }
   };
@@ -35,14 +51,13 @@ function InputInfoPage() {
   const generateAgeOptions = () => {
     const options = [];
     for (let i = 0; i < 100; i++) {
-      const ageValue = i.toString().padStart(2, '0'); // Đảm bảo có 2 chữ số cho mỗi tuổi
+      const ageValue = i.toString().padStart(2, '0');
       options.push(
         <option key={i} value={ageValue}>{ageValue}</option>
       );
     }
     return options;
   };
-
 
   return (
     <div className="input-info-container">
@@ -66,8 +81,19 @@ function InputInfoPage() {
           <input type="text" value={ethAddress} onChange={(e) => setEthAddress(e.target.value)} />
         </label>
         <br />
+        <label>
+            Kênh:
+            <select value={channel} onChange={(e) => setChannel(e.target.value)}>
+              <option value="staffaccountant">StaffAccountant</option>
+              <option value="accountantmanager">AccountantManager</option>
+              <option value="staffstaff">StaffStaff</option>
+            </select>
+          </label>
         <button type="submit">Lưu thông tin</button>
       </form>
+      <Link to="/">
+        <button type="button" className="back-to-home-button">Back to Home</button>
+      </Link>
     </div>
   );
 }

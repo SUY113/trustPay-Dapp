@@ -14,12 +14,6 @@ function HomePage() {
       <Link to="/login" className="button">
         Login
       </Link>
-      <Link to="/input-info" className="button">
-        Input
-      </Link>
-      <Link to="/dashboard" className="button">
-        Dashboard
-      </Link>
     </div>
   );
 }

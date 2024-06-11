@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { Link } from 'react-router-dom';
+import { useNavigate, Link} from 'react-router-dom';
 import axios from 'axios';
 import './Login.css'; // Import file CSS cho component này
 
@@ -8,30 +8,35 @@ function LoginPage() {
   const [password, setPassword] = useState('');
   const [selectedOrg, setSelectedOrg] = useState('');
   const [errorMessage, setErrorMessage] = useState('');
+  const navigate = useNavigate();
 
   const handleSubmit = async (event) => {
     event.preventDefault();
 
     try {
-      // Gửi yêu cầu POST đến REST API để đăng nhập
       const response = await axios.post('http://localhost:3000/login', {
         userName: userName,
         password: password,
         orgName: selectedOrg
       });
 
-      // Kiểm tra phản hồi từ server
       if (response.status === 200) {
-        // Chuyển hướng đến trang nhập thông tin người dùng sau khi đăng nhập thành công
-        window.location.href = '/input-info';
+        // Lưu thông tin vào localStorage
+        localStorage.setItem('userName', userName);
+        localStorage.setItem('orgName', selectedOrg);
+
+        // Hỏi người dùng muốn chuyển đến trang nào
+        const wantToGoToInputInfo = window.confirm('Bạn đã cập nhập thông tin cá nhân ?');
+        if (wantToGoToInputInfo) {
+          navigate('/input-info');
+        } else {
+          navigate('/dashboard');
+        }
       } else {
-        // Hiển thị thông báo lỗi cho người dùng nếu không thành công
         setErrorMessage('Đăng nhập không thành công. Vui lòng kiểm tra lại thông tin đăng nhập.');
       }
     } catch (error) {
-      // Xử lý lỗi
       console.error('Đã xảy ra lỗi:', error);
-      // Hiển thị thông báo lỗi cho người dùng
       setErrorMessage('Đã xảy ra lỗi khi đăng nhập. Vui lòng kiểm tra lại thông tin đăng nhập.');
     }
   };
