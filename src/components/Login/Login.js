@@ -26,11 +26,24 @@ function LoginPage() {
         localStorage.setItem('orgName', selectedOrg);
 
         // Hỏi người dùng muốn chuyển đến trang nào
-        const wantToGoToInputInfo = window.confirm('Bạn đã cập nhập thông tin cá nhân ?');
+        const wantToGoToInputInfo = window.confirm('Bạn chưa nhập thông tin cá nhân ?');
         if (wantToGoToInputInfo) {
           navigate('/input-info');
         } else {
-          navigate('/dashboard');
+          switch (selectedOrg) {
+            case 'Accountant':
+              navigate('/dashboard-Accountant');
+              break;
+            case 'Staff':
+              navigate('/dashboard-Staff');
+              break;
+            case 'Manager':
+              navigate('/dashboard-Manager');
+              break;
+            default:
+              setErrorMessage('Tổ chức không hợp lệ.');
+              break;
+          }
         }
       } else {
         setErrorMessage('Đăng nhập không thành công. Vui lòng kiểm tra lại thông tin đăng nhập.');

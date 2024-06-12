@@ -1,0 +1,34 @@
+/* Dashboard.css */
+.dashboard-container {
+    display: flex;
+    justify-content: space-between;
+    padding: 20px;
+  }
+  
+  .query-form {
+    flex: 1;
+    max-width: 40%;
+    padding: 20px;
+    border: 2px solid #ccc; /* Thêm border */
+    border-radius: 8px; /* Tùy chọn: bo tròn các góc */
+    background-color: #f9f9f9; /* Tùy chọn: thêm màu nền */
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1); /* Tùy chọn: thêm shadow */
+  }
+  
+  .user-info {
+    margin-top: 20px;
+  }
+  
+  .actions {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    justify-content: flex-end; /* Đẩy các nút xuống cuối phần chứa */
+    flex: 1;
+    max-width: 55%;
+  }
+  
+  .actions button {
+    margin: 20px 0;
+  }
+  

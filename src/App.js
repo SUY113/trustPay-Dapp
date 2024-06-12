@@ -1,11 +1,13 @@
 // src/App.js
 import React from 'react';
-import { BrowserRouter as Router, Route, Routes, Link } from 'react-router-dom';
+import { BrowserRouter as Router, Route, Routes } from 'react-router-dom';
 import EnrollAdmin from './components/Login/EnrollAdmin';
 import LoginPage from './components/Login/Login';
 import HomePage from './components/Homepage';
 import InputInfoPage from './components/Database/InputInfoPage';
-import Dashboard from './components/Database/Dashboard';
+import DashboardStaff from './components/Database/DashboardStaff';
+import DashboardAccountant from './components/Database/DashboardAccountant';
+import DashboardManager from './components/Database/DashboardManager';
 
 function App() {
   return (
@@ -16,7 +18,9 @@ function App() {
           <Route path="/enroll-admin" element={<EnrollAdmin />} />
           <Route path="/login" element={<LoginPage />} />
           <Route path="/input-info" element={<InputInfoPage/>}/>
-          <Route path="/dashboard"  element={<Dashboard/>}/>
+          <Route path="/dashboard-Staff" element={<DashboardStaff/>}/>
+          <Route path="/dashboard-Accountant" element={<DashboardAccountant/>}/>
+          <Route path="/dashboard-Manager" element={<DashboardManager/>}/>
         </Routes>
       </div>
     </Router>

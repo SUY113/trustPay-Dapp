@@ -38,7 +38,20 @@ function InputInfoPage() {
       });
 
       if (response.status === 200) {
-        navigate('/dashboard');
+        switch (orgName) {
+          case 'Accountant':
+            navigate('/dashboard-Accountant');
+            break;
+          case 'Staff':
+            navigate('/dashboard-Staff');
+            break;
+          case 'Manager':
+            navigate('/dashboard-Manager');
+            break;
+          default:
+            setErrorMessage('Tổ chức không hợp lệ.');
+            break;
+        }
       } else {
         setErrorMessage('Đã xảy ra lỗi khi lưu thông tin người dùng. Vui lòng thử lại sau.');
       }
