@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { useNavigate, Link } from 'react-router-dom';
 import axios from 'axios';
+import UpdateInfoPage from './UpdateInfoPage';
 import './DashboardAccountant.css';
 
 function DashboardAccountant() {
@@ -9,6 +10,7 @@ function DashboardAccountant() {
   const [channel, setChannel] = useState('');
   const [userInfo, setUserInfo] = useState(null);
   const [errorMessage, setErrorMessage] = useState('');
+  const [isUpdateModalOpen, setIsUpdateModalOpen] = useState(false);
   const navigate = useNavigate();
 
   useEffect(() => {
@@ -54,6 +56,18 @@ function DashboardAccountant() {
     }
   };
 
+  const handleUpdateClick = () => {
+    if (userInfo) {
+      setIsUpdateModalOpen(true);
+    } else {
+      setErrorMessage('Vui lòng truy vấn thông tin người dùng trước khi cập nhật.');
+    }
+  };
+
+  const handleUpdateSuccess = () => {
+    handleSubmit(new Event('submit'));
+  };
+
   return (
     <div className="dashboard-container">
       <div className="query-form">
@@ -84,13 +98,26 @@ function DashboardAccountant() {
         )}
       </div>
       <div className="actions">
-        <button type="button">X</button>
-        <button type="button">X</button>
-        <button type="button">X</button>
+        <button type="button">MintToken</button>
+        <button type="button">Pay Salary</button>
+        <button type="button">Query All</button>
+        <button type="button">ETH Transfer</button>
+        <button type="button" onClick={handleUpdateClick}>Update</button>
         <Link to="/">
           <button type="button" className="back-to-home-button">Back to Home</button>
         </Link>
       </div>
+      {isUpdateModalOpen && (
+        <UpdateInfoPage
+          isOpen={isUpdateModalOpen}
+          onRequestClose={() => setIsUpdateModalOpen(false)}
+          userName={userName}
+          orgName={orgName}
+          userInfo={userInfo}
+          channel={channel}
+          onUpdateSuccess={handleUpdateSuccess}
+        />
+      )}
     </div>
   );
 }

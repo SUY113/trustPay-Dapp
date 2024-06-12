@@ -8,7 +8,7 @@ function InputInfoPage() {
   const [age, setAge] = useState('');
   const [ethAddress, setEthAddress] = useState('');
   const [errorMessage, setErrorMessage] = useState('');
-  const [channel, setChannel] = useState('staffaccountant');
+  const [channel, setChannel] = useState('');
   const navigate = useNavigate();
   const [userName, setUserName] = useState('');
   const [orgName, setOrgName] = useState('');
@@ -19,6 +19,22 @@ function InputInfoPage() {
     if (storedUserName && storedOrgName) {
       setUserName(storedUserName);
       setOrgName(storedOrgName);
+
+      // Xác định kênh dựa trên tổ chức
+      switch (storedOrgName) {
+        case 'Accountant':
+          setChannel('staffaccountant');
+          break;
+        case 'Staff':
+          setChannel('staffstaff');
+          break;
+        case 'Manager':
+          setChannel('accountantmanager');
+          break;
+        default:
+          setChannel('');
+          break;
+      }
     } else {
       navigate('/login');
     }
@@ -34,7 +50,7 @@ function InputInfoPage() {
         name: name,
         age: age,
         ethAddress: ethAddress,
-        channel : channel
+        channel: channel
       });
 
       if (response.status === 200) {
@@ -94,14 +110,6 @@ function InputInfoPage() {
           <input type="text" value={ethAddress} onChange={(e) => setEthAddress(e.target.value)} />
         </label>
         <br />
-        <label>
-            Kênh:
-            <select value={channel} onChange={(e) => setChannel(e.target.value)}>
-              <option value="staffaccountant">StaffAccountant</option>
-              <option value="accountantmanager">AccountantManager</option>
-              <option value="staffstaff">StaffStaff</option>
-            </select>
-          </label>
         <button type="submit">Lưu thông tin</button>
       </form>
       <Link to="/">
