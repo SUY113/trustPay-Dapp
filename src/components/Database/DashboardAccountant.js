@@ -11,6 +11,7 @@ function DashboardAccountant() {
   const [userInfo, setUserInfo] = useState(null);
   const [errorMessage, setErrorMessage] = useState('');
   const [isUpdateModalOpen, setIsUpdateModalOpen] = useState(false);
+  const [mintAmount, setMintAmount] = useState('');
   const navigate = useNavigate();
 
   useEffect(() => {
@@ -68,6 +69,22 @@ function DashboardAccountant() {
     handleSubmit(new Event('submit'));
   };
 
+  const handleMintToken = async () => {
+    try {
+      const response = await axios.post('http://localhost:3000/token-mint', {
+        userName: userName,
+        orgName: orgName,
+        amount: mintAmount
+      });
+
+      console.log('Mint token success:', response.data);
+      setErrorMessage('');
+    } catch (error) {
+      console.error('Đã xảy ra lỗi:', error);
+      setErrorMessage('Đã xảy ra lỗi khi mint token.');
+    }
+  };
+
   return (
     <div className="dashboard-container">
       <div className="query-form">
@@ -98,7 +115,16 @@ function DashboardAccountant() {
         )}
       </div>
       <div className="actions">
-        <button type="button">MintToken</button>
+        <div className="mint-container">
+          <button type="button" onClick={handleMintToken}>MintToken</button> 
+          <input
+            type="number"
+            value={mintAmount}
+            onChange={(e) => setMintAmount(e.target.value)}
+            //Sau nay se truyen truc tiep vao hien tai su dung de test loi.
+            placeholder="Số lượng"
+          />
+        </div>
         <button type="button">Pay Salary</button>
         <button type="button">Query All</button>
         <button type="button">ETH Transfer</button>
