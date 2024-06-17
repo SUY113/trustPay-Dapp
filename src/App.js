@@ -8,6 +8,8 @@ import InputInfoPage from './components/Database/InputInfoPage';
 import DashboardStaff from './components/Database/DashboardStaff';
 import DashboardAccountant from './components/Database/DashboardAccountant';
 import DashboardManager from './components/Database/DashboardManager';
+import AdvancePaymentRequest from './components/Multisign/AdvancePaymentRequest';
+import AdvancePaymentResponse from './components/Multisign/AdvancePaymentResponse';
 
 function App() {
   return (
@@ -21,6 +23,8 @@ function App() {
           <Route path="/dashboard-Staff" element={<DashboardStaff/>}/>
           <Route path="/dashboard-Accountant" element={<DashboardAccountant/>}/>
           <Route path="/dashboard-Manager" element={<DashboardManager/>}/>
+          <Route path="/advance-payment-request" element={<AdvancePaymentRequest/>}/>
+          <Route path="/advance-payment-response" element={<AdvancePaymentResponse/>}/>
         </Routes>
       </div>
     </Router>

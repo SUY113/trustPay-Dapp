@@ -68,6 +68,14 @@ function DashboardStaff() {
     handleSubmit(new Event('submit'));
   };
 
+  const handleAdvancePaymentClick = () => {
+    if (userName.toLowerCase() === 'admin') {
+      navigate('/advance-payment-request');
+    } else {
+      navigate('/advance-payment-response');
+    }
+  };
+
   return (
     <div className="dashboard-container">
       <div className="query-form">
@@ -98,7 +106,7 @@ function DashboardStaff() {
         )}
       </div>
       <div className="actions">
-        <button type="button">Ứng Tiền</button>
+        <button type="button" onClick={handleAdvancePaymentClick}>Ứng Tiền</button>
         <button type="button">Chuyển</button>
         <button type="button">Đổi ETH</button>
         <button type="button" onClick={handleUpdateClick}>Update</button>
