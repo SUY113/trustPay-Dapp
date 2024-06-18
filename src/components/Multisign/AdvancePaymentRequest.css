@@ -1,82 +1,81 @@
+/* AdvancePaymentRequest.css */
+
 .request-form-container {
-  width: 30%;
-  margin: 20px auto;
+  max-width: 500px;
+  margin: 0 auto;
   padding: 20px;
-  border: 1px solid #ccc;
-  border-radius: 5px;
-  box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
   background-color: #f9f9f9;
+  border-radius: 8px;
+  box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
 }
 
 .request-form-container h2 {
-  font-size: 1.5rem;
+  text-align: center;
+}
+
+.request-form-container form label {
+  display: block;
   margin-bottom: 10px;
-  color: #333;
 }
 
-.request-form-container form {
-  display: flex;
-  flex-direction: column;
-  width: 100%;
-  max-width: 400px;
-}
-
-.request-form-container label {
-  margin-bottom: 10px;
-  font-size: 1rem;
-}
-
-.request-form-container input[type="text"] {
+.request-form-container form input {
   width: 100%;
   padding: 8px;
-  font-size: 1rem;
+  margin-top: 4px;
+  margin-bottom: 12px;
+  border-radius: 4px;
   border: 1px solid #ccc;
-  border-radius: 3px;
 }
 
-.request-form-container button[type="submit"] {
-  margin-top: 10px;
+.request-form-container button {
+  display: block;
+  width: 100%;
   padding: 10px;
-  font-size: 1rem;
-  background-color: #007bff;
-  color: #fff;
+  margin-top: 10px;
   border: none;
-  border-radius: 3px;
+  border-radius: 4px;
+  background-color: green;
+  color: white;
   cursor: pointer;
+  text-align: center;
 }
 
-.request-form-container button[type="submit"]:hover {
+.request-form-container button:hover {
   background-color: #0056b3;
-}
-
-.request-form-container .button-group {
-  margin-top: 20px;
 }
 
 .request-form-container .evaluate-request-button,
 .request-form-container .finalize-request-button {
-  padding: 10px 20px;
-  font-size: 1rem;
-  margin-right: 10px;
-  margin-top: 10px;
-  background-color: #28a745;
-  color: #fff;
-  border: none;
-  border-radius: 3px;
-  cursor: pointer;
+  width: 48%;
+  margin-right: 2%;
+  display: inline-block;
 }
 
-.request-form-container .evaluate-request-button:hover,
-.request-form-container .finalize-request-button:hover {
-  background-color: #218838;
+.request-form-container .finalize-request-button {
+  margin-right: 0;
 }
 
-.request-form-container .error-message {
-  margin-top: 10px;
-  color: #dc3545;
+.request-form-container .result-message {
+  margin-top: 20px;
+  padding: 10px;
+  border-radius: 4px;
+  background-color: #e9ecef;
+  border: 1px solid #ced4da;
 }
 
-.request-form-container .success-message {
-  margin-top: 10px;
-  color: #28a745;
+.error-message {
+  color: red;
+}
+
+.success-message {
+  color: green;
+}
+
+.back-button {
+  margin-top: 20px;
+  background-color: #6c757d;
+}
+
+.back-button:hover {
+  background-color: #5a6268;
 }

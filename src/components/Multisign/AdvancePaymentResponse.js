@@ -1,18 +1,35 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import axios from 'axios';
+import { useNavigate} from 'react-router-dom';
 import './AdvancePaymentResponse.css';
 
 function AdvancePaymentResponse() {
- const [requestID, setRequestID] = useState('');
+  const [userName, setUserName] = useState('');
+  const [orgName, setOrgName] = useState('');
+  const [requestID, setRequestID] = useState('');
   const [response, setResponse] = useState('');
   const [errorMessage, setErrorMessage] = useState('');
   const [successMessage, setSuccessMessage] = useState('');
+  const navigate = useNavigate();
+
+  useEffect(() => {
+    const storedUserName = localStorage.getItem('userName');
+    const storedOrgName = localStorage.getItem('orgName');
+    if (storedUserName && storedOrgName) {
+      setUserName(storedUserName);
+      setOrgName(storedOrgName);
+    } else {
+      navigate('/login');
+    }
+  }, [navigate]);
 
   const handleSubmit = async (event) => {
     event.preventDefault();
 
     try {
-    await axios.post('http://localhost:3000/respond-response', {
+    await axios.post('http://localhost:3000/respond-request', {
+        userName : userName,
+        orgName : orgName,
         requestID: requestID,
         response: response
       });
@@ -26,12 +43,24 @@ function AdvancePaymentResponse() {
     }
   };
 
+  const handleBackClick = () => {
+    navigate('/dashboard-Staff');
+  };
+
   return (
     <div className="response-form-container">
       <h2>Submit Response</h2>
       {errorMessage && <p className="error-message">{errorMessage}</p>}
       {successMessage && <p className="success-message">{successMessage}</p>}
       <form onSubmit={handleSubmit}>
+        <label>
+          Tên đăng nhập:
+          <input type="text" value={userName} readOnly />
+        </label>
+        <label>
+          Tổ chức:
+          <input type="text" value={orgName} readOnly />
+        </label>
         <label>
           Request ID:
           <input
@@ -55,6 +84,7 @@ function AdvancePaymentResponse() {
         </label>
         <button type="submit">Submit Response</button>
       </form>
+      <button className="back-button" onClick={handleBackClick}>Back</button>
     </div>
   );
 }
