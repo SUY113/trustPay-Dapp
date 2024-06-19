@@ -1,0 +1,93 @@
+.Accountant-container {
+  width: 100%;
+  max-width: 600px;
+  margin: 20px auto;
+  padding: 20px;
+  border: 1px solid #ccc;
+  border-radius: 8px;
+  background-color: #ffffff;
+  box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+}
+
+.Accountant-header {
+  text-align: center;
+  margin-bottom: 20px;
+}
+
+.Accountant-header h1 {
+  font-size: 28px;
+  color: #333;
+}
+
+.Accountant-form-group {
+  margin-bottom: 20px;
+  display: flex;
+  align-items: center;
+}
+
+.Accountant-form-group label {
+  display: block;
+  font-weight: bold;
+  margin-bottom: 8px;
+  font-size: 18px;
+  color: #555;
+  flex: 1;
+}
+
+.Accountant-form-group input[type="text"] {
+  width: 100%;
+  padding: 12px;
+  font-size: 16px;
+  border: 1px solid #ccc;
+  border-radius: 5px;
+  outline: none;
+  transition: border-color 0.3s ease;
+  flex: 2;
+}
+
+.Accountant-form-group input[type="text"]:focus {
+  border-color: #007bff;
+}
+
+.Accountant-return {
+  margin-top: 30px;
+  text-align: center;
+  display: grid;
+  place-items: center;
+}
+
+.Accountant-return .error,
+.Accountant-return .success {
+  margin-top: 10px;
+  padding: 12px 20px;
+  border-radius: 5px;
+  font-size: 16px;
+}
+
+.Accountant-return .error {
+  background-color: #f8d7da;
+  color: #721c24;
+  border: 1px solid #f5c6cb;
+}
+
+.Accountant-return .success {
+  background-color: #d4edda;
+  color: #155724;
+  border: 1px solid #c3e6cb;
+}
+
+.Accountant-return button {
+  margin-top: 20px;
+  padding: 12px 24px;
+  font-size: 18px;
+  border: none;
+  border-radius: 5px;
+  background-color: #007bff;
+  color: #fff;
+  cursor: pointer;
+  transition: background-color 0.3s ease;
+}
+
+.Accountant-return button:hover {
+  background-color: #0056b3;
+}

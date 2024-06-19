@@ -11,6 +11,7 @@ function DashboardAccountant() {
   const [userInfo, setUserInfo] = useState(null);
   const [errorMessage, setErrorMessage] = useState('');
   const [isUpdateModalOpen, setIsUpdateModalOpen] = useState(false);
+  const [mintAmount, setMintAmount] = useState('');
   const navigate = useNavigate();
 
   useEffect(() => {
@@ -42,18 +43,28 @@ function DashboardAccountant() {
     event.preventDefault();
 
     try {
-      const response = await axios.post('http://localhost:3000/query-user', {
+      const userResponse = await axios.post('http://localhost:3000/query-user', {
         userName: userName,
         orgName: orgName,
         channel: channel
       });
+      setUserInfo(JSON.parse(userResponse.data.result));
 
-      setUserInfo(JSON.parse(response.data.result));
+      // const balanceResponse = await axios.post('http://localhost:3000/query-balance', {
+      //   userName: userName,
+      //   orgName: orgName,
+      // });
+      // setUserInfo(JSON.parse(balanceResponse.data.result));
+
       setErrorMessage('');
     } catch (error) {
       console.error('Đã xảy ra lỗi:', error);
       setErrorMessage('Đã xảy ra lỗi khi truy vấn thông tin người dùng.');
     }
+  };
+
+  const handlePaySalaryClick = () => {
+    navigate('/transferToken-Accountant');
   };
 
   const handleUpdateClick = () => {
@@ -66,6 +77,22 @@ function DashboardAccountant() {
 
   const handleUpdateSuccess = () => {
     handleSubmit(new Event('submit'));
+  };
+
+  const handleMintToken = async () => {
+    try {
+      const response = await axios.post('http://localhost:3000/token-mint', {
+        userName: userName,
+        orgName: orgName,
+        amount: mintAmount
+      });
+
+      console.log('Mint token success:', response.data);
+      setErrorMessage('');
+    } catch (error) {
+      console.error('Đã xảy ra lỗi:', error);
+      setErrorMessage('Đã xảy ra lỗi khi mint token.');
+    }
   };
 
   return (
@@ -98,8 +125,17 @@ function DashboardAccountant() {
         )}
       </div>
       <div className="actions">
-        <button type="button">MintToken</button>
-        <button type="button">Pay Salary</button>
+        <div className="mint-container">
+          <button type="button" onClick={handleMintToken}>MintToken</button> 
+          <input
+            type="number"
+            value={mintAmount}
+            onChange={(e) => setMintAmount(e.target.value)}
+            //Sau nay se truyen truc tiep vao hien tai su dung de test loi.
+            placeholder="Số lượng"
+          />
+        </div>
+        <button type="button" onClick={handlePaySalaryClick} >Pay Salary</button>
         <button type="button">Query All</button>
         <button type="button">ETH Transfer</button>
         <button type="button" onClick={handleUpdateClick}>Update</button>

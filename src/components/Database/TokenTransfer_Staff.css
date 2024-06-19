@@ -1,0 +1,93 @@
+.Staff-container {
+  width: 100%;
+  max-width: 600px;
+  margin: 20px auto;
+  padding: 20px;
+  border: 1px solid #ccc;
+  border-radius: 8px;
+  background-color: #ffffff;
+  box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+}
+
+.Staff-header {
+  text-align: center;
+  margin-bottom: 20px;
+}
+
+.Staff-header h1 {
+  font-size: 28px;
+  color: #333;
+}
+
+.Staff-form-group {
+  margin-bottom: 20px;
+  display: flex;
+  align-items: center;
+}
+
+.Staff-form-group label {
+  display: block;
+  font-weight: bold;
+  margin-bottom: 8px;
+  font-size: 18px;
+  color: #555;
+  flex: 1;
+}
+
+.Staff-form-group input[type="text"] {
+  width: 100%;
+  padding: 12px;
+  font-size: 16px;
+  border: 1px solid #ccc;
+  border-radius: 5px;
+  outline: none;
+  transition: border-color 0.3s ease;
+  flex: 2;
+}
+
+.Staff-form-group input[type="text"]:focus {
+  border-color: #007bff;
+}
+
+.Staff-return {
+  margin-top: 30px;
+  text-align: center;
+  display: grid;
+  place-items: center;
+}
+
+.Staff-return .error,
+.Staff-return .success {
+  margin-top: 10px;
+  padding: 12px 20px;
+  border-radius: 5px;
+  font-size: 16px;
+}
+
+.Staff-return .error {
+  background-color: #f8d7da;
+  color: #721c24;
+  border: 1px solid #f5c6cb;
+}
+
+.Staff-return .success {
+  background-color: #d4edda;
+  color: #155724;
+  border: 1px solid #c3e6cb;
+}
+
+.Staff-return button {
+  margin-top: 20px;
+  padding: 12px 24px;
+  font-size: 18px;
+  border: none;
+  border-radius: 5px;
+  background-color: #007bff;
+  color: #fff;
+  cursor: pointer;
+  transition: background-color 0.3s ease;
+}
+
+.Staff-return button:hover {
+  background-color: #0056b3;
+}

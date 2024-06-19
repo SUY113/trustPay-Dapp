@@ -1,0 +1,82 @@
+.request-form-container {
+    width: 30%;
+    margin: 20px auto;
+    padding: 20px;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+    background-color: #f9f9f9;
+  }
+  
+  .request-form-container h2 {
+    font-size: 1.5rem;
+    margin-bottom: 10px;
+    color: #333;
+  }
+  
+  .request-form-container form {
+    display: flex;
+    flex-direction: column;
+    width: 100%;
+    max-width: 400px;
+  }
+  
+  .request-form-container label {
+    margin-bottom: 10px;
+    font-size: 1rem;
+  }
+  
+  .request-form-container input[type="text"] {
+    width: 100%;
+    padding: 8px;
+    font-size: 1rem;
+    border: 1px solid #ccc;
+    border-radius: 3px;
+  }
+  
+  .request-form-container button[type="submit"] {
+    margin-top: 10px;
+    padding: 10px;
+    font-size: 1rem;
+    background-color: #007bff;
+    color: #fff;
+    border: none;
+    border-radius: 3px;
+    cursor: pointer;
+  }
+  
+  .request-form-container button[type="submit"]:hover {
+    background-color: #0056b3;
+  }
+  
+  .request-form-container .button-group {
+    margin-top: 20px;
+  }
+  
+  .request-form-container .evaluate-request-button,
+  .request-form-container .finalize-request-button {
+    padding: 10px 20px;
+    font-size: 1rem;
+    margin-right: 10px;
+    margin-top: 10px;
+    background-color: #28a745;
+    color: #fff;
+    border: none;
+    border-radius: 3px;
+    cursor: pointer;
+  }
+  
+  .request-form-container .evaluate-request-button:hover,
+  .request-form-container .finalize-request-button:hover {
+    background-color: #218838;
+  }
+  
+  .request-form-container .error-message {
+    margin-top: 10px;
+    color: #dc3545;
+  }
+  
+  .request-form-container .success-message {
+    margin-top: 10px;
+    color: #28a745;
+  }
