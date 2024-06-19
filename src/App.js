@@ -10,6 +10,7 @@ import DashboardAccountant from './components/Database/DashboardAccountant';
 import DashboardManager from './components/Database/DashboardManager';
 import AdvancePaymentRequest from './components/Multisign/AdvancePaymentRequest';
 import AdvancePaymentResponse from './components/Multisign/AdvancePaymentResponse';
+import TransferETH from './components/Dapp/Contract/transferETH';
 
 function App() {
   return (
@@ -25,6 +26,7 @@ function App() {
           <Route path="/dashboard-Manager" element={<DashboardManager/>}/>
           <Route path="/advance-payment-request" element={<AdvancePaymentRequest/>}/>
           <Route path="/advance-payment-response" element={<AdvancePaymentResponse/>}/>
+          <Route path="/transfer-eth" element={<TransferETH/>}/>
         </Routes>
       </div>
     </Router>
