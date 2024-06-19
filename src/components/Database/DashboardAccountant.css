@@ -31,7 +31,6 @@
 .actions button {
   margin: 20px 0;
 }
-
 .mint-container {
   display: flex;
   align-items: center;
@@ -46,4 +45,17 @@
   padding: 5px;
   margin-left: 10px;
   width: 100px; /* Adjust the width as needed */
+}
+
+.dashboard-container .actions button {
+  background-color: #4CAF50; /* Màu xanh lá cây */
+  color: white;
+  border: none;
+  padding: 10px 20px;
+  margin-right: 10px;
+  cursor: pointer;
+}
+
+.dashboard-container .actions button:hover {
+  background-color: #45a049; /* Đổi màu khi hover */
 }

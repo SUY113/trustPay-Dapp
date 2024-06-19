@@ -1,7 +1,7 @@
 // src/components/HomePage.js
-import React from 'react';
-import { Link } from 'react-router-dom';
-import './Homepage.css'; // Import file CSS cho component này
+import React from "react";
+import { Link } from "react-router-dom";
+import "./Homepage.css"; // Import file CSS cho component này
 
 function HomePage() {
   return (

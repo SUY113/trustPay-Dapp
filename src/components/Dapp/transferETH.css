@@ -1,0 +1,39 @@
+/* TransferETH.css */
+.container {
+    max-width: 600px;
+    margin: 0 auto;
+    background: #fff;
+    padding: 20px;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+  }
+  
+  .header {
+    text-align: center;
+    margin-bottom: 20px;
+  }
+  
+  .address, .balance, .send-eth {
+    margin-bottom: 20px;
+  }
+  
+  button {
+    padding: 10px 15px;
+    background: #007bff;
+    border: none;
+    color: white;
+    cursor: pointer;
+  }
+  
+  button:hover {
+    background: #0056b3;
+  }
+
+  .back-button {
+    margin-top: 20px;
+    background-color: green;
+  }
+  
+  .back-button:hover {
+    background-color: #5a6268;
+  }
+  
