@@ -1,6 +1,9 @@
 import React, { useState, useEffect } from 'react';
+import { useNavigate} from 'react-router-dom';
 import Web3 from 'web3';
 import './transferETH.css';
+
+//Deploy lai smc sau.
 
 const TransferETH = () => {
   const [account, setAccount] = useState('');
@@ -8,6 +11,7 @@ const TransferETH = () => {
   const [web3, setWeb3] = useState(null);
   const [recipientAddress, setRecipientAddress] = useState('');
   const [ethAmount, setEthAmount] = useState('');
+  const navigate = useNavigate();
   const contractETHABI = [
     {
       "inputs": [],
@@ -122,10 +126,14 @@ const TransferETH = () => {
     }
   };
 
+  const handleBackClick = () => {
+    navigate('/dashboard-Accountant');
+  };
+
   return (
     <div className="container">
       <div className="header">
-        <h1>My DApp</h1>
+        <h1>ETH Transfer</h1>
       </div>
       <div className="address">
         <h2>Account Address</h2>
@@ -150,6 +158,9 @@ const TransferETH = () => {
           onChange={(e) => setEthAmount(e.target.value)}
         />
         <button onClick={sendEther}>Send ETH</button>
+      </div>
+      <div>
+      <button className="back-button" onClick={handleBackClick}>Back</button>
       </div>
     </div>
   );

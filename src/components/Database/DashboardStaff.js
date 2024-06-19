@@ -1,8 +1,11 @@
 import React, { useState, useEffect } from 'react';
 import { useNavigate, Link } from 'react-router-dom';
+import Modal from 'react-modal';
 import axios from 'axios';
 import UpdateInfoPage from './UpdateInfoPage';
 import './DashboardStaff.css';
+
+Modal.setAppElement('#root');
 
 function DashboardStaff() {
   const [userName, setUserName] = useState('');
@@ -11,6 +14,8 @@ function DashboardStaff() {
   const [userInfo, setUserInfo] = useState(null);
   const [errorMessage, setErrorMessage] = useState('');
   const [isUpdateModalOpen, setIsUpdateModalOpen] = useState(false);
+  const [tokenAmount, setTokenAmount] = useState('');
+  const [isEthExchangeModalOpen, setIsEthExchangeModalOpen] = useState(false);
   const navigate = useNavigate();
 
   useEffect(() => {
@@ -76,6 +81,18 @@ function DashboardStaff() {
     }
   };
 
+  const handleEthProfile = () => {
+    navigate('/eth-profile');
+  };
+
+  const handleEthExchangeClick = () => {
+    if (userInfo) {
+      setIsEthExchangeModalOpen(true);
+    } else {
+      setErrorMessage('Vui lòng truy vấn thông tin người dùng trước khi đổi ETH.');
+    }
+  };
+
   return (
     <div className="dashboard-container">
       <div className="query-form">
@@ -108,12 +125,39 @@ function DashboardStaff() {
       <div className="actions">
         <button type="button" onClick={handleAdvancePaymentClick}>Ứng Tiền</button>
         <button type="button">Chuyển</button>
-        <button type="button">Đổi ETH</button>
+        <button type="button" onClick={handleEthExchangeClick}>Đổi ETH</button>
         <button type="button" onClick={handleUpdateClick}>Update</button>
+        <button type="button" onClick={handleEthProfile}>ETH Wallet</button>
         <Link to="/">
           <button type="button" className="back-to-home-button">Back to Home</button>
         </Link>
       </div>
+
+      <Modal
+        isOpen={isEthExchangeModalOpen}
+        onRequestClose={() => setIsEthExchangeModalOpen(false)}
+        contentLabel="ETH Exchange Modal"
+      >
+        <h3>Đổi ETH</h3>
+        <p><strong>Địa chỉ ETH:</strong> {userInfo ? userInfo.ethaddress : ''}</p>
+        <p><strong>Địa chỉ ETH:</strong> {userInfo ? userInfo.name : ''}</p>
+        <p><strong>Địa chỉ ETH:</strong> {userInfo ? userInfo.org : ''}</p>
+
+        <label>
+          Số lượng token:
+          <input type="number" value={tokenAmount} onChange={(e) => setTokenAmount(e.target.value)} />
+        </label>
+        <button type="button" onClick={() => {
+          // Chuyển dữ liệu ETH Address, tokenAmount, userInfo.name, và userInfo.org sang bộ nhớ cục bộ (local storage)
+          localStorage.setItem('ethAddress', userInfo.ethaddress);
+          localStorage.setItem('tokenAmount', tokenAmount);
+          localStorage.setItem('Name', userInfo.name);
+          localStorage.setItem('Org', userInfo.org);
+          setIsEthExchangeModalOpen(false);
+        }}>Chuyển đổi</button>
+        <button type="button" onClick={() => setIsEthExchangeModalOpen(false)}>Đóng</button>
+      </Modal>
+
       {isUpdateModalOpen && (
         <UpdateInfoPage
           isOpen={isUpdateModalOpen}

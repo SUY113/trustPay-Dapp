@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { useNavigate, Link } from 'react-router-dom';
+import Modal from 'react-modal';
 import axios from 'axios';
 import UpdateInfoPage from './UpdateInfoPage';
 import './DashboardAccountant.css';
@@ -11,6 +12,7 @@ function DashboardAccountant() {
   const [userInfo, setUserInfo] = useState(null);
   const [errorMessage, setErrorMessage] = useState('');
   const [isUpdateModalOpen, setIsUpdateModalOpen] = useState(false);
+  const [isEthExchangeInfoModalOpen, setIsEthExchangeInfoModalOpen] = useState(false);
   const [mintAmount, setMintAmount] = useState('');
   const navigate = useNavigate();
 
@@ -85,6 +87,14 @@ function DashboardAccountant() {
     }
   };
 
+  const handleEthTransfer = () =>{
+    navigate('/transfer-eth')
+  };
+
+  const handleEthExchangeInfoClick = () => {
+    setIsEthExchangeInfoModalOpen(true);
+  };
+
   return (
     <div className="dashboard-container">
       <div className="query-form">
@@ -127,12 +137,38 @@ function DashboardAccountant() {
         </div>
         <button type="button">Pay Salary</button>
         <button type="button">Query All</button>
-        <button type="button">ETH Transfer</button>
+        <button type="button" onClick={handleEthTransfer}>ETH Transfer</button> 
         <button type="button" onClick={handleUpdateClick}>Update</button>
+        <button type="button" onClick={handleEthExchangeInfoClick}>Xem thông tin đổi ETH</button>
         <Link to="/">
           <button type="button" className="back-to-home-button">Back to Home</button>
         </Link>
       </div>
+      {isUpdateModalOpen && (
+        <UpdateInfoPage
+          isOpen={isUpdateModalOpen}
+          onRequestClose={() => setIsUpdateModalOpen(false)}
+          userName={userName}
+          orgName={orgName}
+          userInfo={userInfo}
+          channel={channel}
+          onUpdateSuccess={handleUpdateSuccess}
+        />
+      )}
+
+      <Modal
+        isOpen={isEthExchangeInfoModalOpen}
+        onRequestClose={() => setIsEthExchangeInfoModalOpen(false)}
+        contentLabel="ETH Exchange Info Modal"
+      >
+        <h3>Thông Tin Đổi ETH</h3>
+        <p><strong>Địa chỉ ETH:</strong> {localStorage.getItem('ethAddress')}</p>
+        <p><strong>Ten nguoi doi ETH:</strong> {localStorage.getItem('Name')}</p>
+        <p><strong>Ten nguoi doi ETH:</strong> {localStorage.getItem('Org')}</p>
+        <p><strong>Số lượng token:</strong> {localStorage.getItem('tokenAmount')}</p>
+        <button type="button" onClick={() => setIsEthExchangeInfoModalOpen(false)}>Đóng</button>
+      </Modal>
+
       {isUpdateModalOpen && (
         <UpdateInfoPage
           isOpen={isUpdateModalOpen}
