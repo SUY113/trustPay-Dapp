@@ -93,6 +93,16 @@ function DashboardStaff() {
     }
   };
 
+  const handleTransferTokenClick = () => {
+    if (userInfo) {
+      localStorage.setItem('transferTokenStaffUserName', userInfo.name);
+      localStorage.setItem('transferTokenStaffOrg', userInfo.org);
+      navigate("/transferToken-Staff");
+    } else {
+      setErrorMessage('Vui lòng truy vấn thông tin người dùng trước khi chuyển.');
+    }
+  };
+
   return (
     <div className="dashboard-container">
       <div className="query-form">
@@ -124,7 +134,7 @@ function DashboardStaff() {
       </div>
       <div className="actions">
         <button type="button" onClick={handleAdvancePaymentClick}>Ứng Tiền</button>
-        <button type="button">Chuyển</button>
+        <button type="button" onClick={handleTransferTokenClick}>Chuyển</button>
         <button type="button" onClick={handleEthExchangeClick}>Đổi ETH</button>
         <button type="button" onClick={handleUpdateClick}>Update</button>
         <button type="button" onClick={handleEthProfile}>ETH Wallet</button>
@@ -140,8 +150,8 @@ function DashboardStaff() {
       >
         <h3>Đổi ETH</h3>
         <p><strong>Địa chỉ ETH:</strong> {userInfo ? userInfo.ethaddress : ''}</p>
-        <p><strong>Địa chỉ ETH:</strong> {userInfo ? userInfo.name : ''}</p>
-        <p><strong>Địa chỉ ETH:</strong> {userInfo ? userInfo.org : ''}</p>
+        <p><strong>Ten nguoi doi:</strong> {userInfo ? userInfo.name : ''}</p>
+        <p><strong>To chuc thuoc ve:</strong> {userInfo ? userInfo.org : ''}</p>
 
         <label>
           Số lượng token:

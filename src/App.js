@@ -12,6 +12,8 @@ import AdvancePaymentRequest from './components/Multisign/AdvancePaymentRequest'
 import AdvancePaymentResponse from './components/Multisign/AdvancePaymentResponse';
 import TransferETH from './components/Dapp/transferETH';
 import EthProfile from './components/Dapp/ethProfile';
+import TokenTransferAccountant from './components/Token/TokenTransferAccountant';
+import TokenTransferStaff from './components/Token/TokenTransferStaff';
 
 function App() {
   return (
@@ -29,6 +31,9 @@ function App() {
           <Route path="/advance-payment-response" element={<AdvancePaymentResponse/>}/>
           <Route path="/transfer-eth" element={<TransferETH/>}/>
           <Route path="/eth-profile" element={<EthProfile/>}/>
+          <Route path="/transferToken-Accountant" element={<TokenTransferAccountant />}/>
+          <Route path="/transferToken-Staff" element={<TokenTransferStaff />} />
+          <Route path="/advance-payment-request" element={<AdvancePaymentRequest />}/>
         </Routes>
       </div>
     </Router>

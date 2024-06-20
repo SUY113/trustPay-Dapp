@@ -95,6 +95,10 @@ function DashboardAccountant() {
     setIsEthExchangeInfoModalOpen(true);
   };
 
+  const handlePaySalaryClick = () => {
+    navigate("/transferToken-Accountant");
+  };
+
   return (
     <div className="dashboard-container">
       <div className="query-form">
@@ -135,7 +139,7 @@ function DashboardAccountant() {
             placeholder="Số lượng"
           />
         </div>
-        <button type="button">Pay Salary</button>
+        <button type="button" onClick={handlePaySalaryClick}> Pay Salary </button>
         <button type="button">Query All</button>
         <button type="button" onClick={handleEthTransfer}>ETH Transfer</button> 
         <button type="button" onClick={handleUpdateClick}>Update</button>
