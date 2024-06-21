@@ -133,8 +133,8 @@ function DashboardStaff() {
         )}
       </div>
       <div className="actions">
-        <button type="button" onClick={handleAdvancePaymentClick}>Ứng Tiền</button>
-        <button type="button" onClick={handleTransferTokenClick}>Chuyển</button>
+        <button type="button" onClick={handleAdvancePaymentClick}>Trả lời/yêu cầu ứng tiền</button>
+        <button type="button" onClick={handleTransferTokenClick}>Chi tiêu</button>
         <button type="button" onClick={handleEthExchangeClick}>Đổi ETH</button>
         <button type="button" onClick={handleUpdateClick}>Update</button>
         <button type="button" onClick={handleEthProfile}>ETH Wallet</button>

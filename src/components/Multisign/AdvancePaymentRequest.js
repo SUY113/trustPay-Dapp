@@ -8,9 +8,11 @@ function AdvancePaymentRequest() {
   const [orgName, setOrgName] = useState('');
   const [requestID, setRequestID] = useState('');
   const [targetAccount, setTargetAccount] = useState('');
+  const [amountToken, setAmountToken] = useState('');
   const [evaluateRequestResult, setEvaluateRequestResult] = useState('');
   const [errorMessage, setErrorMessage] = useState('');
   const [successMessage, setSuccessMessage] = useState('');
+  const [showRequestInfo, setShowRequestInfo] = useState(false);
   const [finalizeRequestResult, setFinalizeRequestResult] = useState('');
   const navigate = useNavigate();
 
@@ -26,6 +28,9 @@ function AdvancePaymentRequest() {
   }, [navigate]);
 
   const handleSubmit = async (event) => {
+    localStorage.setItem('targetAccount', targetAccount);
+    localStorage.setItem('amountToken', amountToken);
+    localStorage.setItem('requestId', requestID);
     event.preventDefault();
 
     try {
@@ -76,13 +81,17 @@ function AdvancePaymentRequest() {
     }
   };
 
+  const handleShowRequestInfo = () => {
+    setShowRequestInfo(true);
+  };
+
   const handleBackClick = () => {
     navigate('/dashboard-Staff');
   };
 
   return (
     <div className="request-form-container">
-      <h2>Submit Request</h2>
+      <h2>Submit Request Advance Payment</h2>
       {errorMessage && <p className="error-message">{errorMessage}</p>}
       {successMessage && <p className="success-message">{successMessage}</p>}
       <form onSubmit={handleSubmit}>
@@ -112,6 +121,15 @@ function AdvancePaymentRequest() {
             required
           />
         </label>
+        <label>
+          Amount Token 
+          <input
+            type ="text"
+            value={amountToken}
+            onChange={(e) => setAmountToken(e.target.value)}
+            required
+          />
+        </label>
         <button type="submit">Submit Request</button>
       </form>
       <div>
@@ -128,6 +146,16 @@ function AdvancePaymentRequest() {
         <div className="result-message">
           <h3>Finalize Request Result:</h3>
           <p>{finalizeRequestResult}</p>
+        </div>
+      )}
+      <div>
+        <button className="detail-advande-payment" onClick={handleShowRequestInfo}>Thong tin yeu cau ung tien</button>
+      </div>
+      {showRequestInfo && (
+        <div className="request-info">
+          <h3>Request Information:</h3>
+          <p>Client Account ID: {localStorage.getItem('clientAccountId')}</p>
+          <p>Advance Token: {localStorage.getItem('advanceToken')}</p>
         </div>
       )}
       <button className="back-button" onClick={handleBackClick}>Back</button>

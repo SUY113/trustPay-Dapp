@@ -14,6 +14,8 @@ function TokenTransfer_Staff() {
   const [error, setError] = useState('');
   const [success, setSuccess] = useState('');
   const [isReceiveSalaryOpen, setisReceiveSalaryOpen] = useState(false);
+  const [isAdvancePaymentOpen, setIsAdvancePaymentOpen] = useState(false);
+  const [advanceToken, setAdvanceToken] = useState('');
   const [errorMessage, setErrorMessage] = useState('');
   const [nameInfo, setNameInfo] = useState('');
   const [orgInfo, setOrgInfo] = useState ('');
@@ -105,6 +107,15 @@ function TokenTransfer_Staff() {
         setErrorMessage('Error');
     }
   };
+  
+  const handleAdvancePaymentClick = () => {
+    if (clientAccountID) {
+      setIsAdvancePaymentOpen(true);
+    } else {
+      setErrorMessage('Error');
+    }
+  };
+
 
   return (
     <div className="Staff-container">
@@ -152,6 +163,7 @@ function TokenTransfer_Staff() {
           <button onClick={handleTransfer}>Submit Transfer</button>
           <button onClick={handleReturn}>Return to Dashboard</button>
           <button onClick={handleReceiveSalaryClick}>Receive Salary</button>
+          <button onClick={handleAdvancePaymentClick}>Advance Payment</button>
         </div>
 
         <Modal
@@ -169,6 +181,32 @@ function TokenTransfer_Staff() {
                 localStorage.setItem('orgReceive', orgInfo);
             }}>Yeu cau</button>
             <button type="button" onClick={() => setisReceiveSalaryOpen(false) }>Dong</button>
+        </Modal>
+
+        <Modal
+             isOpen = {isAdvancePaymentOpen}  
+             onRequestClose={() => setIsAdvancePaymentOpen(false)}
+             contentLabel= "Advance Payment Modal"
+        >
+          <h3>Yêu cầu ứng tiền </h3>
+            <p><strong>Tên người yêu cau ung tien:</strong> {nameInfo}</p>
+            <p><strong>Tổ chức người yêu cầu ung tien</strong> {orgInfo}</p>
+            <p><strong>Địa chỉ người yêu cầu ung tien:</strong> {clientAccountID}</p>
+            <label>
+              So tien muon ung 
+              <input
+               type ="text"
+               value={advanceToken}
+               onChange={(e) => setAdvanceToken(e.target.value)}
+               required
+              />
+            </label>
+            <button type="button" onClick={() => {
+                localStorage.setItem('clientAccountId', clientAccountID);
+                localStorage.setItem('advanceToken', advanceToken);
+                setIsAdvancePaymentOpen(false);
+            }}>Ung tien</button>
+            <button type="button" onClick={() => setIsAdvancePaymentOpen(false)}>Đóng</button>
         </Modal>
       </header>
     </div>

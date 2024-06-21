@@ -7,6 +7,8 @@ function AdvancePaymentResponse() {
   const [userName, setUserName] = useState('');
   const [orgName, setOrgName] = useState('');
   const [requestID, setRequestID] = useState('');
+  const [targetAccount, setTargetAccount] = useState('');
+  const [amountToken, setAmountToken] = useState('');
   const [response, setResponse] = useState('');
   const [errorMessage, setErrorMessage] = useState('');
   const [successMessage, setSuccessMessage] = useState('');
@@ -22,6 +24,19 @@ function AdvancePaymentResponse() {
       navigate('/login');
     }
   }, [navigate]);
+
+  useEffect(() => {
+    const storedRequestID = localStorage.getItem('requestId');
+    const storedTargetAccount = localStorage.getItem('targetAccount');
+    const storedAmountToken = localStorage.getItem('amountToken');
+    if (storedAmountToken && storedRequestID && storedTargetAccount){
+      setRequestID(storedRequestID);
+      setTargetAccount(storedTargetAccount);
+      setAmountToken(storedAmountToken);
+    } else {
+      setErrorMessage("Không có yêu cầu ứng tiền");
+    }
+  }, []);
 
   const handleSubmit = async (event) => {
     event.preventDefault();
@@ -49,7 +64,7 @@ function AdvancePaymentResponse() {
 
   return (
     <div className="response-form-container">
-      <h2>Submit Response</h2>
+      <h2>Submit Response Advance Payment</h2>
       {errorMessage && <p className="error-message">{errorMessage}</p>}
       {successMessage && <p className="success-message">{successMessage}</p>}
       <form onSubmit={handleSubmit}>
@@ -63,12 +78,15 @@ function AdvancePaymentResponse() {
         </label>
         <label>
           Request ID:
-          <input
-            type="text"
-            value={requestID}
-            onChange={(e) => setRequestID(e.target.value)}
-            required
-          />
+          <input type="text" value={requestID} readOnly />
+        </label>
+        <label>
+          Targer Account
+        <input type="text" value={targetAccount} readOnly/>
+        </label>
+        <label>
+          Amount Token
+          <input type="text" value={amountToken} readOnly/>
         </label>
         <label>
           Response:
