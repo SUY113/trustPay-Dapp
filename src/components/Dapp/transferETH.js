@@ -1,71 +1,71 @@
-import React, { useState, useEffect } from 'react';
-import { useNavigate} from 'react-router-dom';
-import Web3 from 'web3';
-import './transferETH.css';
+import React, { useState, useEffect } from "react";
+import { useNavigate } from "react-router-dom";
+import Web3 from "web3";
+import "./transferETH.css";
 
 //Deploy lai smc sau.
 
 const TransferETH = () => {
-  const [account, setAccount] = useState('');
-  const [balance, setBalance] = useState('');
+  const [account, setAccount] = useState("");
+  const [balance, setBalance] = useState("");
   const [web3, setWeb3] = useState(null);
-  const [recipientAddress, setRecipientAddress] = useState('');
-  const [ethAmount, setEthAmount] = useState('');
+  const [recipientAddress, setRecipientAddress] = useState("");
+  const [ethAmount, setEthAmount] = useState("");
   const navigate = useNavigate();
   const contractETHABI = [
     {
-      "inputs": [],
-      "stateMutability": "nonpayable",
-      "type": "constructor"
+      inputs: [
+        {
+          internalType: "address payable",
+          name: "recipient",
+          type: "address",
+        },
+      ],
+      name: "sendEth",
+      outputs: [],
+      stateMutability: "payable",
+      type: "function",
     },
     {
-      "inputs": [],
-      "name": "getOwnerBalance",
-      "outputs": [
-        {
-          "internalType": "uint256",
-          "name": "",
-          "type": "uint256"
-        }
-      ],
-      "stateMutability": "view",
-      "type": "function"
+      inputs: [],
+      stateMutability: "nonpayable",
+      type: "constructor",
     },
     {
-      "inputs": [],
-      "name": "owner",
-      "outputs": [
+      inputs: [],
+      name: "getOwnerBalance",
+      outputs: [
         {
-          "internalType": "address",
-          "name": "",
-          "type": "address"
-        }
+          internalType: "uint256",
+          name: "",
+          type: "uint256",
+        },
       ],
-      "stateMutability": "view",
-      "type": "function"
+      stateMutability: "view",
+      type: "function",
     },
     {
-      "inputs": [
+      inputs: [],
+      name: "owner",
+      outputs: [
         {
-          "internalType": "address payable",
-          "name": "recipient",
-          "type": "address"
-        }
+          internalType: "address",
+          name: "",
+          type: "address",
+        },
       ],
-      "name": "sendEth",
-      "outputs": [],
-      "stateMutability": "payable",
-      "type": "function"
-    }
+      stateMutability: "view",
+      type: "function",
+    },
   ];
-  const contractETHAddress = '0xb53D4F1752246b038049cC542A1a0144664274B3';
+  const contractETHAddress = "0x162234E293Ed1745540625Ad35146D1Ee2fDEBD0";
 
   useEffect(() => {
     const initWeb3 = async () => {
       if (window.ethereum) {
         const web3Instance = new Web3(window.ethereum);
         try {
-          await window.ethereum.request({ method: 'eth_requestAccounts' });
+          await window.ethereum.request({ method: "eth_requestAccounts" });
           setWeb3(web3Instance);
         } catch (error) {
           console.error("User denied account access");
@@ -74,7 +74,9 @@ const TransferETH = () => {
         const web3Instance = new Web3(window.web3.currentProvider);
         setWeb3(web3Instance);
       } else {
-        const web3Instance = new Web3(new Web3.providers.HttpProvider('http://localhost:8545'));
+        const web3Instance = new Web3(
+          new Web3.providers.HttpProvider("http://localhost:8545")
+        );
         setWeb3(web3Instance);
       }
     };
@@ -87,18 +89,20 @@ const TransferETH = () => {
       if (web3) {
         web3.eth.getAccounts((err, accounts) => {
           if (err) {
-            console.error('Error fetching accounts:', err);
+            console.error("Error fetching accounts:", err);
             return;
           }
           setAccount(accounts[0]);
-          const contractETHInstance = web3.eth.contract(contractETHABI).at(contractETHAddress);
+          const contractETHInstance = web3.eth
+            .contract(contractETHABI)
+            .at(contractETHAddress);
 
           contractETHInstance.getOwnerBalance((err, balanceOwner) => {
             if (err) {
-              console.error('Error fetching balance:', err);
+              console.error("Error fetching balance:", err);
               return;
             }
-            const balanceOwnerInEther = web3.fromWei(balanceOwner, 'ether');
+            const balanceOwnerInEther = web3.fromWei(balanceOwner, "ether");
             setBalance(balanceOwnerInEther);
           });
         });
@@ -110,24 +114,30 @@ const TransferETH = () => {
 
   const sendEther = () => {
     if (web3) {
-      const contractETHInstance = web3.eth.contract(contractETHABI).at(contractETHAddress);
+      const contractETHInstance = web3.eth
+        .contract(contractETHABI)
+        .at(contractETHAddress);
 
-      contractETHInstance.sendEth.sendTransaction(recipientAddress, {
-        from: account,
-        value: web3.toWei(ethAmount, 'ether'),
-        gas: 300000
-      }, (error, result) => {
-        if (!error) {
-          console.log('Transaction hash:', result);
-        } else {
-          console.error('Error sending Ether:', error);
+      contractETHInstance.sendEth.sendTransaction(
+        recipientAddress,
+        {
+          from: account,
+          value: web3.toWei(ethAmount, "ether"),
+          gas: 300000,
+        },
+        (error, result) => {
+          if (!error) {
+            console.log("Transaction hash:", result);
+          } else {
+            console.error("Error sending Ether:", error);
+          }
         }
-      });
+      );
     }
   };
 
   const handleBackClick = () => {
-    navigate('/dashboard-Accountant');
+    navigate("/dashboard-Accountant");
   };
 
   return (
@@ -137,11 +147,11 @@ const TransferETH = () => {
       </div>
       <div className="address">
         <h2>Account Address</h2>
-        <p>{account ? account : 'Loading...'}</p>
+        <p>{account ? account : "Loading..."}</p>
       </div>
       <div className="balance">
         <h2>Owner Balance</h2>
-        <p>{balance ? `${balance} ETH` : 'Loading...'}</p>
+        <p>{balance ? `${balance} ETH` : "Loading..."}</p>
       </div>
       <div className="send-eth">
         <h2>Send Ether</h2>
@@ -160,7 +170,9 @@ const TransferETH = () => {
         <button onClick={sendEther}>Send ETH</button>
       </div>
       <div>
-      <button className="back-button" onClick={handleBackClick}>Back</button>
+        <button className="back-button" onClick={handleBackClick}>
+          Back
+        </button>
       </div>
     </div>
   );
