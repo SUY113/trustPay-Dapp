@@ -17,7 +17,6 @@ function DashboardAccountant() {
     useState(false);
   const [mintAmount, setMintAmount] = useState("");
   const navigate = useNavigate();
-
   const [, setAccount] = useState("");
   const [web3, setWeb3] = useState(null);
 
@@ -36,18 +35,15 @@ function DashboardAccountant() {
   useEffect(() => {
     const loadWeb3 = async () => {
       if (typeof window.web3 !== "undefined") {
-        // MetaMask is available
         const web3Instance = new Web3(window.web3.currentProvider);
         setWeb3(web3Instance);
       } else {
-        // MetaMask is not available, fallback to local node
         const web3Instance = new Web3(
           new Web3.providers.HttpProvider("http://localhost:8545")
         );
         setWeb3(web3Instance);
       }
     };
-
     loadWeb3();
   }, []);
 
@@ -66,7 +62,6 @@ function DashboardAccountant() {
               console.error("Error fetching balance:", err);
               return;
             }
-            // Convert balance from wei to ether manually
             const balanceInEther = Math.floor(
               web3.fromWei(balanceWei, "ether")
             );

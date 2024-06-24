@@ -44,7 +44,7 @@
   .mint-container input {
     padding: 5px;
     margin-left: 10px;
-    width: 100px; /* Adjust the width as needed */
+    width: 40px; /* Adjust the width as needed */
   }
   
   .dashboard-container .actions button {
