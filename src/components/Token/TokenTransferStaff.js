@@ -4,7 +4,7 @@ import Modal from 'react-modal';
 import axios from 'axios';
 import './TokenTransferStaff.css';
 
-function TokenTransfer_Staff() {
+function TokenTransferStaff() {
   const [userName] = useState(localStorage.getItem('userName') || ''); 
   const [orgName] = useState(localStorage.getItem('orgName') || ''); 
   const [clientAccountID, setClientAccountID] = useState('');
@@ -30,6 +30,20 @@ function TokenTransfer_Staff() {
     if (storedNameInfo && storedOrgInfo) {
       setNameInfo(storedNameInfo);
       setOrgInfo(storedOrgInfo);
+    }
+
+
+    const storedAccountIDReceive = localStorage.getItem('AccountIDToTransfer');
+    const storedAmount = localStorage.getItem('AmountToTransfer');
+    const storedAccountantID = localStorage.getItem('AccountantID');
+    const storedTokenAmount = localStorage.getItem('tokenAmount');
+    if (storedAccountIDReceive && storedAmount) {
+      setAccountIDReceive(storedAccountIDReceive);
+      setAmount(storedAmount);
+    }
+    if(storedAccountantID){
+      setAccountIDReceive(storedAccountantID)
+      setAmount(storedTokenAmount);
     }
   }, []);
 
@@ -87,6 +101,13 @@ function TokenTransfer_Staff() {
         setSuccess('Transfer successful!');
         // Refresh balance after successful transfer
         fetchClientAccountBalance();
+
+        localStorage.setItem('AccountIDToTransfer', '');
+        localStorage.setItem('AmountToTransfer', '');
+        localStorage.setItem('AccountantID','');
+        localStorage.setItem('tokenAmount','');
+        setAccountIDReceive('');
+        setAmount('');
       } else {
         setError('Transfer failed. Please try again.');
       }
@@ -179,6 +200,7 @@ function TokenTransfer_Staff() {
                 localStorage.setItem('clientAccountId', clientAccountID);
                 localStorage.setItem('nameReceive', nameInfo);
                 localStorage.setItem('orgReceive', orgInfo);
+                setisReceiveSalaryOpen(false);
             }}>Yeu cau</button>
             <button type="button" onClick={() => setisReceiveSalaryOpen(false) }>Dong</button>
         </Modal>
@@ -202,7 +224,7 @@ function TokenTransfer_Staff() {
               />
             </label>
             <button type="button" onClick={() => {
-                localStorage.setItem('clientAccountId', clientAccountID);
+                localStorage.setItem('clientAccountIdReceive', clientAccountID);
                 localStorage.setItem('advanceToken', advanceToken);
                 setIsAdvancePaymentOpen(false);
             }}>Ung tien</button>
@@ -213,4 +235,4 @@ function TokenTransfer_Staff() {
   );
 }
 
-export default TokenTransfer_Staff;
+export default TokenTransferStaff;

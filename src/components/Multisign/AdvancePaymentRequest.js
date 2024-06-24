@@ -71,6 +71,12 @@ function AdvancePaymentRequest() {
       const res = await axios.post('http://localhost:3000/finalize-request', { userName : userName,
         orgName : orgName, requestID: requestID  });
       setFinalizeRequestResult(res.data.result);
+      
+      if (res.data.result == 'Request approved'){
+        localStorage.setItem('AccountIDToTransfer',localStorage.getItem('clientAccountIdReceive'));
+        localStorage.setItem('AmountToTransfer', localStorage.getItem('advanceToken'));
+        navigate('/transferToken-Staff');
+      }
     } catch (error) {
       console.error('Error:', error);
       if (error.response && error.response.data) {
@@ -154,7 +160,7 @@ function AdvancePaymentRequest() {
       {showRequestInfo && (
         <div className="request-info">
           <h3>Request Information:</h3>
-          <p>Client Account ID: {localStorage.getItem('clientAccountId')}</p>
+          <p>Client Account ID: {localStorage.getItem('clientAccountIdReceive')}</p>
           <p>Advance Token: {localStorage.getItem('advanceToken')}</p>
         </div>
       )}

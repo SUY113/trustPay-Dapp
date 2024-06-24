@@ -163,7 +163,7 @@ function DashboardStaff() {
           localStorage.setItem('tokenAmount', tokenAmount);
           localStorage.setItem('Name', userInfo.name);
           localStorage.setItem('Org', userInfo.org);
-          setIsEthExchangeModalOpen(false);
+          navigate('/transferToken-Staff');
         }}>Chuyển đổi</button>
         <button type="button" onClick={() => setIsEthExchangeModalOpen(false)}>Đóng</button>
       </Modal>

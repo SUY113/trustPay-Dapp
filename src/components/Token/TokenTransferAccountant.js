@@ -4,7 +4,7 @@ import Modal from 'react-modal';
 import axios from 'axios';
 import './TokenTransferAccountant.css';
 
-function TokenTransfer_Accountant() {
+function TokenTransferAccountant() {
   const [userName] = useState(localStorage.getItem('userName') || ''); 
   const [orgName] = useState(localStorage.getItem('orgName') || ''); 
   const [clientAccountID, setClientAccountID] = useState('');
@@ -30,6 +30,7 @@ function TokenTransfer_Accountant() {
       });
 
       setClientAccountID(response.data.resultID);
+      localStorage.setItem('AccountantID', response.data.resultID);
     } catch (err) {
       console.error('Failed to fetch ClientAccountID:', err);
       setError('Failed to fetch ClientAccountID');
@@ -147,7 +148,7 @@ return (
             <h3>Thong tin nguoi nhan luong</h3>
             <p><strong>Ten nguoi nhan luong </strong>{localStorage.getItem('nameReceive')}</p>
             <p><strong>Ten to chuc nguoi nhan</strong>{localStorage.getItem('orgReceive')}</p>
-            <p><strong>Dia chi nguoi nhan</strong>{localStorage.getItem('clientAccountId')}</p>
+            <p><strong>Dia chi nguoi nhan </strong>{localStorage.getItem('clientAccountId')}</p>
             <button type="button" onClick={() => setisReceiveSalaryOpen(false)}>Dong</button>
         </Modal>
       </header>
@@ -157,4 +158,4 @@ return (
 
 
 
-export default TokenTransfer_Accountant;
+export default TokenTransferAccountant;
