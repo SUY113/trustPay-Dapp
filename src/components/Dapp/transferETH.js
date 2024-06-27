@@ -14,19 +14,6 @@ const TransferETH = () => {
   const navigate = useNavigate();
   const contractETHABI = [
     {
-      inputs: [
-        {
-          internalType: "address payable",
-          name: "recipient",
-          type: "address",
-        },
-      ],
-      name: "sendEth",
-      outputs: [],
-      stateMutability: "payable",
-      type: "function",
-    },
-    {
       inputs: [],
       stateMutability: "nonpayable",
       type: "constructor",
@@ -57,8 +44,21 @@ const TransferETH = () => {
       stateMutability: "view",
       type: "function",
     },
+    {
+      inputs: [
+        {
+          internalType: "address payable",
+          name: "recipient",
+          type: "address",
+        },
+      ],
+      name: "sendEth",
+      outputs: [],
+      stateMutability: "payable",
+      type: "function",
+    },
   ];
-  const contractETHAddress = "0x162234E293Ed1745540625Ad35146D1Ee2fDEBD0";
+  const contractETHAddress = "0x762bcAE540A14C5f7bBEeffDb6d7CF808D4D9D87";
 
   useEffect(() => {
     const initWeb3 = async () => {

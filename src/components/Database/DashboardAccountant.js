@@ -20,6 +20,34 @@ function DashboardAccountant() {
   const [, setAccount] = useState("");
   const [web3, setWeb3] = useState(null);
 
+  const BalanceOfETHABI = [
+    {
+      inputs: [
+        {
+          internalType: "address",
+          name: "_ethTransferAddress",
+          type: "address",
+        },
+      ],
+      stateMutability: "nonpayable",
+      type: "constructor",
+    },
+    {
+      inputs: [],
+      name: "retrieveOwnerBalance",
+      outputs: [
+        {
+          internalType: "uint256",
+          name: "",
+          type: "uint256",
+        },
+      ],
+      stateMutability: "view",
+      type: "function",
+    },
+  ];
+  const BalanceOfETHABIAddress = "0xe582B3DF22aa33a7C8d0cF28C97f560f3f829aC0";
+
   useEffect(() => {
     const storedUserName = localStorage.getItem("userName");
     const storedOrgName = localStorage.getItem("orgName");
@@ -57,7 +85,22 @@ function DashboardAccountant() {
           }
           setAccount(accounts[0]);
 
-          web3.eth.getBalance(accounts[0], (err, balanceWei) => {
+          // web3.eth.getBalance(accounts[0], (err, balanceWei) => {
+          //   if (err) {
+          //     console.error("Error fetching balance:", err);
+          //     return;
+          //   }
+          //   const balanceInEther = Math.floor(
+          //     web3.fromWei(balanceWei, "ether")
+          //   );
+          //   setMintAmount(balanceInEther.toString());
+          // });
+
+          const BalanceOfETHInstance = web3.eth
+            .contract(BalanceOfETHABI)
+            .at(BalanceOfETHABIAddress);
+
+          BalanceOfETHInstance.retrieveOwnerBalance((err, balanceWei) => {
             if (err) {
               console.error("Error fetching balance:", err);
               return;
