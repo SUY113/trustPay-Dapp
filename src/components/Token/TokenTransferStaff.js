@@ -41,7 +41,7 @@ function TokenTransferStaff() {
       setAccountIDReceive(storedAccountIDReceive);
       setAmount(storedAmount);
     }
-    if(storedAccountantID){
+    if(storedAccountantID && storedTokenAmount){
       setAccountIDReceive(storedAccountantID)
       setAmount(storedTokenAmount);
     }
