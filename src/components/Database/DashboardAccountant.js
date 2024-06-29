@@ -84,7 +84,7 @@ function DashboardAccountant() {
         });
     };
     loadmintToken();
-  }, []);
+  }, [balance]);
 
   // useEffect(() => {
   //   const loadWeb3Contract = async () => {
@@ -166,10 +166,6 @@ function DashboardAccountant() {
 
   const handleUpdateSuccess = () => {
     handleSubmit(new Event("submit"));
-  };
-
-  const handlegetBalance = async () => {
-    navigate("/MintToken");
   };
 
   const handleMintToken = async () => {
