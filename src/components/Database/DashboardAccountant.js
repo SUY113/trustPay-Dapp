@@ -4,6 +4,7 @@ import Modal from 'react-modal';
 import axios from 'axios';
 import UpdateInfoPage from './UpdateInfoPage';
 import './DashboardAccountant.css';
+import Web3 from "web3";
 
 function DashboardAccountant() {
   const [userName, setUserName] = useState('');
@@ -14,6 +15,8 @@ function DashboardAccountant() {
   const [isUpdateModalOpen, setIsUpdateModalOpen] = useState(false);
   const [isEthExchangeInfoModalOpen, setIsEthExchangeInfoModalOpen] = useState(false);
   const [mintAmount, setMintAmount] = useState('');
+  const [web3Eth, setWeb3Eth] = useState(null);
+  const [balance, setBalance] = useState(0);
   const navigate = useNavigate();
 
   useEffect(() => {
@@ -27,6 +30,47 @@ function DashboardAccountant() {
       navigate('/login');
     }
   }, [navigate]);
+
+  useEffect(() => {
+    const loadWeb3Eth = async () => {
+      if (typeof window.web3 !== "undefined") {
+        const web3Instance = new Web3(window.web3.currentProvider);
+        setWeb3Eth(web3Instance);
+      } else {
+        const web3Instance = new Web3(
+          new Web3.providers.HttpProvider("http://localhost:8545")
+        );
+        setWeb3Eth(web3Instance);
+      }
+    };
+    loadWeb3Eth();
+  }, []);
+
+  useEffect(() => {
+    const fetchAccountInfo = async () => {
+      if (web3Eth) {
+        web3Eth.eth.getAccounts((err, accounts) => {
+          if (err) {
+            console.error("Error fetching accounts:", err);
+            return;
+          }
+          web3Eth.eth.getBalance(accounts[0], (err, balanceWei) => {
+            if (err) {
+              console.error("Error fetching balance:", err);
+              return;
+            }
+            const balanceInEther = Math.floor(
+              web3Eth.fromWei(balanceWei, "ether")
+            );
+            setBalance(balanceInEther);
+            console.log("Balance in Ether:", balanceInEther);
+            // setbalanceInEther(balanceInEther);
+          });
+        });
+      }
+    };
+    fetchAccountInfo();
+  }, [web3Eth]);
 
   const getChannelForOrg = (orgName) => {
     switch (orgName) {
@@ -69,6 +113,21 @@ function DashboardAccountant() {
 
   const handleUpdateSuccess = () => {
     handleSubmit(new Event('submit'));
+  };
+
+  const handleGetBalance = () => {
+    const jsonString = JSON.stringify(balance, null, 2);
+    const blob = new Blob([jsonString], { type: "application/json" });
+
+    // Tạo một URL tạm thời để file
+    const url = URL.createObjectURL(blob);
+    // Tạo một thẻ a và tự động click để tải file
+    const link = document.createElement("a");
+    link.href = url;
+    link.download = "balanceInEther.json";
+    link.click();
+    // Sau khi tải xong, chúng ta có thể giải phóng URL
+    URL.revokeObjectURL(url);
   };
 
   const handleMintToken = async () => {
@@ -131,6 +190,9 @@ function DashboardAccountant() {
       <div className="actions">
         <div className="mint-container">
           <button type="button" onClick={handleMintToken}>MintToken</button> 
+          <button type="button" onClick={handleGetBalance}>
+            GetBalance
+          </button>
           <input
             type="number"
             value={mintAmount}
@@ -140,7 +202,6 @@ function DashboardAccountant() {
           />
         </div>
         <button type="button" onClick={handlePaySalaryClick}> Pay Salary </button>
-        <button type="button">Query All</button>
         <button type="button" onClick={handleEthTransfer}>ETH Transfer</button> 
         <button type="button" onClick={handleUpdateClick}>Update</button>
         <button type="button" onClick={handleEthExchangeInfoClick}>Xem thông tin đổi ETH</button>

@@ -12,6 +12,7 @@ const TransferETH = () => {
   const [recipientAddress, setRecipientAddress] = useState('');
   const [ethAmount, setEthAmount] = useState('');
   const navigate = useNavigate();
+  //Thay doi theo remix.
   const contractETHABI = [
     {
       "inputs": [],
@@ -58,6 +59,7 @@ const TransferETH = () => {
       "type": "function"
     }
   ];
+  //Thay doi theo dia chi deploy tren remix
   const contractETHAddress = '0xb53D4F1752246b038049cC542A1a0144664274B3';
 
   useEffect(() => {
