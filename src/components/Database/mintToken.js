@@ -36,7 +36,7 @@ function mintToken(balance) {
     "608060405234801561001057600080fd5b5061012f806100206000396000f3fe6080604052348015600f57600080fd5b506004361060325760003560e01c806312065fe0146037578063fb1669ca146051575b600080fd5b603d6069565b6040516048919060c2565b60405180910390f35b6067600480360381019060639190608f565b6072565b005b60008054905090565b8060008190555050565b60008135905060898160e5565b92915050565b60006020828403121560a057600080fd5b600060ac84828501607c565b91505092915050565b60bc8160db565b82525050565b600060208201905060d5600083018460b5565b92915050565b6000819050919050565b60ec8160db565b811460f657600080fd5b5056fea2646970667358221220368d41917c426e40ea507231b18db146b0116d1581fc3781d82c3432448aa97e64736f6c63430008030033";
 
   web3Contract.eth.defaultAccount =
-    "0xd5fabe7eaecc67fffbb016080d55bb4ff7ff9d11";
+    "0x59293f128f33d5fd427cc3129a6d9812a102fdeb";
   const BalanceOfETH = web3Contract.eth.contract(BalanceOfETHABI);
 
   return new Promise((resolve, reject) => {
@@ -91,7 +91,7 @@ function mintToken(balance) {
                     reject(err);
                     return;
                   }
-                  console.log("Current Balance:", balance.toNumber());
+                  //console.log("Current Balance:", balance.toNumber());
                   resolve(balance.toNumber());
                 });
               }
@@ -109,7 +109,7 @@ function mintToken(balance) {
 function mintTokenUntilSuccess(balance) {
   return mintToken(balance)
     .then((mintBalance) => {
-      console.log("Successfully set balance. Current Balance:", mintBalance);
+      //console.log("Successfully set balance. Current Balance:", mintBalance);
       return mintBalance.toString();
     })
     .catch((error) => {

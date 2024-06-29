@@ -5,8 +5,6 @@ import axios from "axios";
 import UpdateInfoPage from "./UpdateInfoPage";
 import "./DashboardAccountant.css";
 import Web3 from "web3";
-const { mintTokenUntilSuccess } = require("./mintToken");
-
 function DashboardAccountant() {
   const [userName, setUserName] = useState("");
   const [orgName, setOrgName] = useState("");
@@ -17,9 +15,8 @@ function DashboardAccountant() {
   const [isEthExchangeInfoModalOpen, setIsEthExchangeInfoModalOpen] =
     useState(false);
   const [mintAmount, setMintAmount] = useState("");
-  const navigate = useNavigate();
   const [web3Eth, setWeb3Eth] = useState(null);
-  const [balance, setBalance] = useState(0);
+  const navigate = useNavigate();
 
   useEffect(() => {
     const storedUserName = localStorage.getItem("userName");
@@ -55,7 +52,7 @@ function DashboardAccountant() {
           if (err) {
             console.error("Error fetching accounts:", err);
             return;
-          } // get balance
+          }
           web3Eth.eth.getBalance(accounts[0], (err, balanceWei) => {
             if (err) {
               console.error("Error fetching balance:", err);
@@ -64,64 +61,26 @@ function DashboardAccountant() {
             const balanceInEther = Math.floor(
               web3Eth.fromWei(balanceWei, "ether")
             );
-            setBalance(balanceInEther);
+            console.log("Balance in Ether:", balanceInEther);
+            // setbalanceInEther(balanceInEther);
+            const jsonString = JSON.stringify(balanceInEther, null, 2);
+            const blob = new Blob([jsonString], { type: "application/json" });
+
+            // Tạo một URL tạm thời để file
+            const url = URL.createObjectURL(blob);
+            // Tạo một thẻ a và tự động click để tải file
+            const link = document.createElement("a");
+            link.href = url;
+            link.download = "balanceInEther.json";
+            link.click();
+            // Sau khi tải xong, chúng ta có thể giải phóng URL
+            URL.revokeObjectURL(url);
           });
         });
       }
     };
     fetchAccountInfo();
   }, [web3Eth]);
-
-  useEffect(() => {
-    const loadmintToken = async () => {
-      mintTokenUntilSuccess(balance)
-        .then((result) => {
-          console.log("Minting succeeded. Final balance:", result);
-          setMintAmount(result);
-        })
-        .catch((error) => {
-          console.error("Minting failed:", error);
-        });
-    };
-    loadmintToken();
-  }, [balance]);
-
-  // useEffect(() => {
-  //   const loadWeb3Contract = async () => {
-  //     const web3Instance = new Web3(
-  //       new Web3.providers.HttpProvider("http://localhost:5000")
-  //     );
-  //     setWeb3Contract(web3Instance); // This sets the web3Contract state
-  //     console.log(web3Instance);
-  //   };
-  //   loadWeb3Contract();
-  // }, []);
-
-  // useEffect(() => {
-  //   const loadContract = async () => {
-  //     if (web3Contract) {
-  //       //console.log(web3Contract);
-
-  //       web3Contract.eth.defaultAccount =
-  //         "0xd5fabe7eaecc67fffbb016080d55bb4ff7ff9d11";
-  //       const BalanceOfETH = web3Contract.eth.contract(BalanceOfETHABI);
-  //       //console.log(BalanceOfETH);
-
-  //       const deployedContract = await BalanceOfETH.new([], {
-  //         data: BalanceOfETHBytecode,
-  //       });
-
-  //       // const myContract = BalanceOfETH.at(
-  //       //   web3Contract.eth.getTransactionReceipt(
-  //       //     deployedContract.transactionHash
-  //       //   ).contractAddress
-  //       // );
-  //       // myContract.setBalance(balance);
-  //       // setMintAmount(myContract.getBalance());
-  //     }
-  //   };
-  //   loadContract();
-  // }, [web3Contract, balance]);
 
   const getChannelForOrg = (orgName) => {
     switch (orgName) {
@@ -240,7 +199,12 @@ function DashboardAccountant() {
           <button type="button" onClick={handleMintToken}>
             MintToken
           </button>
-          <input type="text" value={mintAmount} readOnly />
+          <input
+            type="text"
+            value={mintAmount}
+            onChange={(e) => setMintAmount(e.target.value)}
+            placeholder="Số lượng"
+          />
         </div>
         <button type="button" onClick={handlePaySalaryClick}>
           {" "}
