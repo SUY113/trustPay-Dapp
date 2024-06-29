@@ -5,6 +5,7 @@ import axios from "axios";
 import UpdateInfoPage from "./UpdateInfoPage";
 import "./DashboardAccountant.css";
 import Web3 from "web3";
+const { mintTokenUntilSuccess } = require("./mintToken");
 
 function DashboardAccountant() {
   const [userName, setUserName] = useState("");
@@ -17,9 +18,7 @@ function DashboardAccountant() {
     useState(false);
   const [mintAmount, setMintAmount] = useState("");
   const navigate = useNavigate();
-  const [, setAccountEth] = useState("");
   const [web3Eth, setWeb3Eth] = useState(null);
-  const [web3Contract, setWeb3Contract] = useState(null);
   const [balance, setBalance] = useState(0);
 
   useEffect(() => {
@@ -56,9 +55,7 @@ function DashboardAccountant() {
           if (err) {
             console.error("Error fetching accounts:", err);
             return;
-          }
-          setAccountEth(accounts[0]);
-          // get balance
+          } // get balance
           web3Eth.eth.getBalance(accounts[0], (err, balanceWei) => {
             if (err) {
               console.error("Error fetching balance:", err);
@@ -68,7 +65,6 @@ function DashboardAccountant() {
               web3Eth.fromWei(balanceWei, "ether")
             );
             setBalance(balanceInEther);
-            //setMintAmount(balance.toString());
           });
         });
       }
@@ -77,99 +73,55 @@ function DashboardAccountant() {
   }, [web3Eth]);
 
   useEffect(() => {
-    const loadWeb3Contract = async () => {
-      try {
-        const web3Instance = new Web3(
-          new Web3.providers.HttpProvider("http://localhost:5000")
-        );
-        setWeb3Contract(web3Instance);
-      } catch (error) {
-        console.error("Failed to connect to the node:", error);
-      }
+    const loadmintToken = async () => {
+      mintTokenUntilSuccess(balance)
+        .then((result) => {
+          console.log("Minting succeeded. Final balance:", result);
+          setMintAmount(result);
+        })
+        .catch((error) => {
+          console.error("Minting failed:", error);
+        });
     };
-    loadWeb3Contract();
+    loadmintToken();
   }, []);
 
-  useEffect(() => {
-    const loadContract = async () => {
-      if (web3Contract && web3Contract.eth) {
-        try {
-          web3Contract.eth.defaultAccount = await web3Contract.eth.accounts[0];
-          const BalanceOfETHABI = [
-            {
-              inputs: [
-                {
-                  internalType: "uint256",
-                  name: "value",
-                  type: "uint256",
-                },
-              ],
-              name: "setBalance",
-              outputs: [],
-              stateMutability: "nonpayable",
-              type: "function",
-            },
-            {
-              inputs: [],
-              name: "getBalance",
-              outputs: [
-                {
-                  internalType: "uint256",
-                  name: "",
-                  type: "uint256",
-                },
-              ],
-              stateMutability: "view",
-              type: "function",
-            },
-          ];
+  // useEffect(() => {
+  //   const loadWeb3Contract = async () => {
+  //     const web3Instance = new Web3(
+  //       new Web3.providers.HttpProvider("http://localhost:5000")
+  //     );
+  //     setWeb3Contract(web3Instance); // This sets the web3Contract state
+  //     console.log(web3Instance);
+  //   };
+  //   loadWeb3Contract();
+  // }, []);
 
-          const BalanceOfETHBytecode =
-            "608060405234801561001057600080fd5b5061012f806100206000396000f3fe6080604052348015600f57600080fd5b506004361060325760003560e01c806312065fe0146037578063fb1669ca146051575b600080fd5b603d6069565b6040516048919060c2565b60405180910390f35b6067600480360381019060639190608f565b6072565b005b60008054905090565b8060008190555050565b60008135905060898160e5565b92915050565b60006020828403121560a057600080fd5b600060ac84828501607c565b91505092915050565b60bc8160db565b82525050565b600060208201905060d5600083018460b5565b92915050565b6000819050919050565b60ec8160db565b811460f657600080fd5b5056fea2646970667358221220368d41917c426e40ea507231b18db146b0116d1581fc3781d82c3432448aa97e64736f6c63430008030033";
+  // useEffect(() => {
+  //   const loadContract = async () => {
+  //     if (web3Contract) {
+  //       //console.log(web3Contract);
 
-          const BalanceOfETH = new web3Contract.eth.Contract(BalanceOfETHABI);
-          const deployedContract = await BalanceOfETH.deploy({
-            data: BalanceOfETHBytecode,
-          })
-            .send({ from: web3Contract.eth.defaultAccount })
-            .on("receipt", (receipt) => {
-              console.log(
-                "Contract deployed successfully:",
-                receipt.contractAddress
-              );
-            })
-            .on("error", (error) => {
-              console.error("Error deploying contract:", error);
-              throw error; // Rethrow after logging
-            });
+  //       web3Contract.eth.defaultAccount =
+  //         "0xd5fabe7eaecc67fffbb016080d55bb4ff7ff9d11";
+  //       const BalanceOfETH = web3Contract.eth.contract(BalanceOfETHABI);
+  //       //console.log(BalanceOfETH);
 
-          const contractAddress = deployedContract.options.address;
-          const myContract = new web3Contract.eth.Contract(
-            BalanceOfETHABI,
-            contractAddress
-          );
+  //       const deployedContract = await BalanceOfETH.new([], {
+  //         data: BalanceOfETHBytecode,
+  //       });
 
-          await myContract.methods
-            .setBalance(balance)
-            .send({ from: web3Contract.eth.defaultAccount })
-            .on("receipt", (receipt) => {
-              console.log("Transaction successful:", receipt);
-            })
-            .on("error", (error) => {
-              console.error("Error in transaction:", error);
-              throw error; // Rethrow after logging
-            });
-
-          const result = await myContract.methods.getBalance().call();
-          console.log("Balance:", result.toString());
-          setMintAmount(result.toString());
-        } catch (error) {
-          console.error("Error interacting with the contract:", error);
-        }
-      }
-    };
-    loadContract();
-  }, [web3Contract]);
+  //       // const myContract = BalanceOfETH.at(
+  //       //   web3Contract.eth.getTransactionReceipt(
+  //       //     deployedContract.transactionHash
+  //       //   ).contractAddress
+  //       // );
+  //       // myContract.setBalance(balance);
+  //       // setMintAmount(myContract.getBalance());
+  //     }
+  //   };
+  //   loadContract();
+  // }, [web3Contract, balance]);
 
   const getChannelForOrg = (orgName) => {
     switch (orgName) {
@@ -214,6 +166,10 @@ function DashboardAccountant() {
 
   const handleUpdateSuccess = () => {
     handleSubmit(new Event("submit"));
+  };
+
+  const handlegetBalance = async () => {
+    navigate("/MintToken");
   };
 
   const handleMintToken = async () => {
