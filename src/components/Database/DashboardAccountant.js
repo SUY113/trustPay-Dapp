@@ -16,6 +16,7 @@ function DashboardAccountant() {
     useState(false);
   const [mintAmount, setMintAmount] = useState("");
   const [web3Eth, setWeb3Eth] = useState(null);
+  const [balance, setBalance] = useState(0);
   const navigate = useNavigate();
 
   useEffect(() => {
@@ -61,20 +62,9 @@ function DashboardAccountant() {
             const balanceInEther = Math.floor(
               web3Eth.fromWei(balanceWei, "ether")
             );
+            setBalance(balanceInEther);
             console.log("Balance in Ether:", balanceInEther);
             // setbalanceInEther(balanceInEther);
-            const jsonString = JSON.stringify(balanceInEther, null, 2);
-            const blob = new Blob([jsonString], { type: "application/json" });
-
-            // Tạo một URL tạm thời để file
-            const url = URL.createObjectURL(blob);
-            // Tạo một thẻ a và tự động click để tải file
-            const link = document.createElement("a");
-            link.href = url;
-            link.download = "balanceInEther.json";
-            link.click();
-            // Sau khi tải xong, chúng ta có thể giải phóng URL
-            URL.revokeObjectURL(url);
           });
         });
       }
@@ -125,6 +115,21 @@ function DashboardAccountant() {
 
   const handleUpdateSuccess = () => {
     handleSubmit(new Event("submit"));
+  };
+
+  const handleGetBalance = () => {
+    const jsonString = JSON.stringify(balance, null, 2);
+    const blob = new Blob([jsonString], { type: "application/json" });
+
+    // Tạo một URL tạm thời để file
+    const url = URL.createObjectURL(blob);
+    // Tạo một thẻ a và tự động click để tải file
+    const link = document.createElement("a");
+    link.href = url;
+    link.download = "balanceInEther.json";
+    link.click();
+    // Sau khi tải xong, chúng ta có thể giải phóng URL
+    URL.revokeObjectURL(url);
   };
 
   const handleMintToken = async () => {
@@ -198,6 +203,9 @@ function DashboardAccountant() {
         <div className="mint-container">
           <button type="button" onClick={handleMintToken}>
             MintToken
+          </button>
+          <button type="button" onClick={handleGetBalance}>
+            GetBalance
           </button>
           <input
             type="text"
