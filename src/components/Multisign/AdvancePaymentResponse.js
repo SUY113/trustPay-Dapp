@@ -1,35 +1,35 @@
-import React, { useState, useEffect } from 'react';
-import axios from 'axios';
-import { useNavigate} from 'react-router-dom';
-import './AdvancePaymentResponse.css';
+import React, { useState, useEffect } from "react";
+import axios from "axios";
+import { useNavigate } from "react-router-dom";
+import "./AdvancePaymentResponse.css";
 
 function AdvancePaymentResponse() {
-  const [userName, setUserName] = useState('');
-  const [orgName, setOrgName] = useState('');
-  const [requestID, setRequestID] = useState('');
-  const [targetAccount, setTargetAccount] = useState('');
-  const [amountToken, setAmountToken] = useState('');
-  const [response, setResponse] = useState('');
-  const [errorMessage, setErrorMessage] = useState('');
-  const [successMessage, setSuccessMessage] = useState('');
+  const [userName, setUserName] = useState("");
+  const [orgName, setOrgName] = useState("");
+  const [requestID, setRequestID] = useState("");
+  const [targetAccount, setTargetAccount] = useState("");
+  const [amountToken, setAmountToken] = useState("");
+  const [response, setResponse] = useState("");
+  const [errorMessage, setErrorMessage] = useState("");
+  const [successMessage, setSuccessMessage] = useState("");
   const navigate = useNavigate();
 
   useEffect(() => {
-    const storedUserName = localStorage.getItem('userName');
-    const storedOrgName = localStorage.getItem('orgName');
+    const storedUserName = localStorage.getItem("userName");
+    const storedOrgName = localStorage.getItem("orgName");
     if (storedUserName && storedOrgName) {
       setUserName(storedUserName);
       setOrgName(storedOrgName);
     } else {
-      navigate('/login');
+      navigate("/login");
     }
   }, [navigate]);
 
   useEffect(() => {
-    const storedRequestID = localStorage.getItem('requestId');
-    const storedTargetAccount = localStorage.getItem('targetAccount');
-    const storedAmountToken = localStorage.getItem('amountToken');
-    if (storedAmountToken && storedRequestID && storedTargetAccount){
+    const storedRequestID = localStorage.getItem("requestId");
+    const storedTargetAccount = localStorage.getItem("targetAccount");
+    const storedAmountToken = localStorage.getItem("amountToken");
+    if (storedAmountToken && storedRequestID && storedTargetAccount) {
       setRequestID(storedRequestID);
       setTargetAccount(storedTargetAccount);
       setAmountToken(storedAmountToken);
@@ -42,24 +42,24 @@ function AdvancePaymentResponse() {
     event.preventDefault();
 
     try {
-    await axios.post('http://localhost:3000/respond-request', {
-        userName : userName,
-        orgName : orgName,
+      await axios.post("http://localhost:3000/respond-request", {
+        userName: userName,
+        orgName: orgName,
         requestID: requestID,
-        response: response
+        response: response,
       });
 
-      setSuccessMessage('Response submitted successfully.');
-      setErrorMessage('');
+      setSuccessMessage("Response submitted successfully.");
+      setErrorMessage("");
     } catch (error) {
-      console.error('Error:', error);
-      setErrorMessage('Failed to submit response.');
-      setSuccessMessage('');
+      console.error("Error:", error);
+      setErrorMessage("Failed to submit response.");
+      setSuccessMessage("");
     }
   };
 
   const handleBackClick = () => {
-    navigate('/dashboard-Staff');
+    navigate("/dashboard-Staff");
   };
 
   return (
@@ -69,11 +69,11 @@ function AdvancePaymentResponse() {
       {successMessage && <p className="success-message">{successMessage}</p>}
       <form onSubmit={handleSubmit}>
         <label>
-          Tên đăng nhập:
+          userName:
           <input type="text" value={userName} readOnly />
         </label>
         <label>
-          Tổ chức:
+          OrgName:
           <input type="text" value={orgName} readOnly />
         </label>
         <label>
@@ -82,11 +82,11 @@ function AdvancePaymentResponse() {
         </label>
         <label>
           Targer Account
-        <input type="text" value={targetAccount} readOnly/>
+          <input type="text" value={targetAccount} readOnly />
         </label>
         <label>
           Amount Token
-          <input type="text" value={amountToken} readOnly/>
+          <input type="text" value={amountToken} readOnly />
         </label>
         <label>
           Response:
@@ -102,7 +102,9 @@ function AdvancePaymentResponse() {
         </label>
         <button type="submit">Submit Response</button>
       </form>
-      <button className="back-button" onClick={handleBackClick}>Back</button>
+      <button className="back-button" onClick={handleBackClick}>
+        Back
+      </button>
     </div>
   );
 }
